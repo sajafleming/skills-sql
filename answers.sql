@@ -87,7 +87,11 @@ The result set should be:
 -----
 
 
-SELECT models.name, brand_name, brands.headquarters FROM models LEFT JOIN brands ON models.brand_name=brands.name WHERE brand_name = 'Ford' AND models.name = 'Mustang';
+SELECT models.name, brand_name, brands.headquarters 
+  FROM models 
+  LEFT JOIN brands 
+  ON models.brand_name=brands.name 
+  WHERE brand_name = 'Ford' AND models.name = 'Mustang';
 
 
 ==========
@@ -232,7 +236,11 @@ show information about Tesla, a brand with no models in the models table.
 -----
 
 
-SELECT b.name,                                                                                                                                                                         b.founded,                                                                                                                                                                           m.name                                                                                                                                                                        FROM models AS m                                                                                                                                                                       RIGHT JOIN brands AS b                                                                                                                                                                 ON b.name = m.brand_name                                                                                                                                                         WHERE b.discontinued IS NULL;
+SELECT b.name, b.founded, m.name 
+  FROM models AS m
+  RIGHT JOIN brands AS b 
+  ON b.name = m.brand_name
+  WHERE b.discontinued IS NULL;
 
 
 ==========
@@ -248,7 +256,10 @@ the models table (a.k.a. Tesla).
 -----
 
 
-SELECT m.name,                                                                            m.brand_name,                                                                             b.founded                                                                          FROM models AS m                                                                            INNER JOIN brands AS b                                                                      ON b.name = m.brand_name;
+SELECT m.name, m.brand_name, b.founded
+  FROM models AS m
+  INNER JOIN brands AS b 
+  ON b.name = m.brand_name;
 
 
 ==========
@@ -269,7 +280,11 @@ The correct result set is:
 -----
 
 
-SELECT b.name,                                                                                                                                                                         founded                                                                                                                                                                       FROM brands AS b                                                                                                                                                                       LEFT JOIN models AS m                                                                                                                                                                  ON b.name = m.brand_name                                                                                                                                                         WHERE b.name NOT IN (SELECT brand_name FROM models);
+SELECT b.name, founded 
+  FROM brands AS b 
+  LEFT JOIN models AS m
+  ON b.name = m.brand_name
+  WHERE b.name NOT IN (SELECT brand_name FROM models);
 
 
 ==========
@@ -311,7 +326,12 @@ result set is:
 -----
 
 
-SELECT b.name,                                                                                                                                                                         m.name,                                                                                                                                                                              m.year,                                                                                                                                                                              b.discontinued, (b.discontinued - m.year) AS years_until_brand_discoontinued                                                                                                  FROM models AS m                                                                                                                                                                       LEFT JOIN brands AS b                                                                                                                                                                  ON m.brand_name = b.name                                                                                                                                                         WHERE b.discontinued IS NOT NULL                                                                                                                                                     ORDER BY b.name, m.name, m.year;
+SELECT b.name, m.name, m.year, b.discontinued, (b.discontinued - m.year) AS years_until_brand_discoontinued
+  FROM models AS m
+  LEFT JOIN brands AS b
+  ON m.brand_name = b.name
+  WHERE b.discontinued IS NOT NULL
+  ORDER BY b.name, m.name, m.year;
 
 
 ==========
